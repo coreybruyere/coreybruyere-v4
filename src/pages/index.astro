@@ -5,8 +5,6 @@ import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 import { contentfulClient, type Post } from "../lib/contentful";
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import type { Entry, EntryFieldTypes } from "contentful";
 
 const entries = await contentfulClient.getEntries<Post>({
   content_type: "post",
