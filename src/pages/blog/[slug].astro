@@ -1,0 +1,41 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BlogPost from "../../layouts/BlogPost.astro";
+import { contentfulClient } from "../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { Post } from "../../lib/contentful";
+
+import { Debug } from "astro:components";
+
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<Post>({
+    content_type: "post",
+  });
+
+  const pages = entries.items.map((item) => ({
+    params: { slug: item.fields.slug },
+    props: {
+      title: item.fields.title,
+      body: documentToHtmlString(item.fields.body),
+      publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
+    },
+  }));
+  return pages;
+}
+
+const { body, title, publishDate } = Astro.props;
+
+console.log(body);
+---
+
+<html lang="en">
+  <head>
+    <title>{title}</title>
+  </head>
+  <body>
+    <h1>{title}</h1>
+    <time>{publishDate}</time>
+    <Debug answer={publishDate} />
+    <article set:html={publishDate} />
+  </body>
+</html>
