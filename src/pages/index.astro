@@ -32,11 +32,18 @@ const postsContentful = entries.items.map((item) => {
 
       <h2>Contentful Posts:</h2>
       {
-        postsContentful.map((post) => (
-          <div>
-            Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-          </div>
-        ))
+        postsContentful && (
+          <ul>
+            {postsContentful.map((post) => (
+              <li>
+                <a href={`blog/${post.slug}`}>
+                  Title:{post.title}, Date: {post.publishDate}, Slug:{" "}
+                  {post.slug}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )
       }
       <hr style="margin: 40px" />
       <p>
