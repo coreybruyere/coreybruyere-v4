@@ -1,15 +1,7 @@
 ---
-import { postsContentful } from "../../components/postsContentful";
-import PostsContentful from "../../components/PostsContentful.astro";
+import ContentfulPosts from "../../components/ContentfulPosts.astro";
 
 export const partial = true;
-
-const page = +(Astro.url.searchParams.get("page") || 1);
 ---
 
-<div class="italic mb-5">
-  Users: Page > {page}
-</div>
-<PostsContentful
-  postsContentful={postsContentful.slice((page - 1) * 2, page * 2)}
-/>
+<ContentfulPosts />

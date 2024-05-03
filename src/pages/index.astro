@@ -57,19 +57,25 @@ const postsContentful = entries.items.map((item) => {
           justifyContent: "space-between",
         })}
       >
-        HTMX Testing Page
+        HTMX Testing Section
       </h2>
-      <div>Pagination: (Make into compoinent)</div>
+      <div>Pagination: (Convert into component)</div>
       {
         [1, 2, 3].map((page) => (
-          <a
-            href="#"
-            class="w-10 h-10 flex items-center justify-center border border-white mx-2"
+          <button
+            class={css({
+              fontSize: 16,
+              background: "gray",
+              mx: 1,
+              padding: 2,
+              justifyContent: "space-between",
+              cursor: "pointer",
+            })}
             hx-get={`/partials/posts?page=${page}`}
             hx-target="#contents"
           >
             {page}
-          </a>
+          </button>
         ))
       }
 
