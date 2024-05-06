@@ -3,46 +3,55 @@ import { Debug } from "astro:components";
 
 import { contentfulClient, type Post } from "../lib/contentful";
 
-const entries = await contentfulClient.getEntries<Post>({
+export const contentfulEntries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
 
-const posts = entries.items.map((item) => {
-  const { title, slug, publishDate } = item.fields;
+export const contentfulPosts = contentfulEntries.items.map((item) => {
+  const { title, slug, body, publishDate } = item.fields;
   return {
     title,
     slug,
+    body,
     publishDate: new Date(publishDate).toLocaleDateString(),
   };
 });
 
-const page = +(Astro.url.searchParams.get("page") || 1);
+const page = Astro.url.searchParams.get("page") || 1;
 
-const POSTS_PER_PAGE = 2;
+const POSTS_PER_PAGE_MIN = 2;
+const POSTS_PER_PAGE_MAX = 10;
+
+const {
+  posts = contentfulPosts,
+  pageParam = page,
+  postsPerPage = POSTS_PER_PAGE_MIN,
+  ...props
+} = Astro.props;
 ---
 
 <div>
   <!-- <Debug hi={Astro.props} /> -->
-  {
-    (
-      <ul>
-        {posts
-          .slice((page - 1) * POSTS_PER_PAGE, page * POSTS_PER_PAGE)
-          .map((post) => (
-            <li>
-              <a href={`blog/${post.slug}`}>
-                Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-              </a>
-            </li>
-          ))}
-      </ul>
-    )
-  }
-  {
+
+  <ul>
+    {
+      posts
+        .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
+        .map((post) => (
+          <li>
+            <a href={`blog/${post.slug}`}>
+              Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
+            </a>
+          </li>
+        ))
+    }
+  </ul>
+
+  <!-- {
     posts.slice((page - 1) * 2, page * 2).map((post: any) => (
       <div>
         Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
       </div>
     ))
-  }
+  } -->
 </div>

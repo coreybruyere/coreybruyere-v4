@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { BLOCKS } from "@contentful/rich-text-types";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
@@ -11,35 +12,76 @@ const entries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
 
+async function richTextToHTML(json) {
+  const asset_links = [];
+  const options = {
+    renderNode: {
+      [BLOCKS.EMBEDDED_ASSET]: (node) => {
+        return `[embedded-asset-block:${asset_links.push(node.data.target.sys)}]`;
+      },
+    },
+  };
+
+  let html = documentToHtmlString(json, options);
+
+  for (let i = 0; i < asset_links.length; ++i) {
+    const link = asset_links[i];
+    const asset_query = `
+        {
+            asset(id:"${link.id}")
+            {
+                title
+                description
+                url
+                width
+                height
+            }
+        }
+        `;
+
+    let replacement = "";
+    const response = await contentfulFetch(asset_query);
+    if (response.ok) {
+      const asset = (await response.json()).data.asset;
+      replacement = `<img src="${asset.url}" alt="${asset.description}" style="max-width:800px; height:auto;">`;
+      const marker = `[embedded-asset-block:${i + 1}]`;
+      html = html.replace(marker, replacement);
+    }
+  }
+
+  return html;
+}
+
 const pages = entries.items.map((item) => ({
   params: { slug: item.fields.slug },
   props: {
     title: item.fields.title,
-    body: documentToHtmlString(item.fields.body),
+    body: richTextToHTML(item.fields.body),
+    test: item.fields.body,
     publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
   },
 }));
 
-// export async function getStaticPaths() {
-//   const entries = await contentfulClient.getEntries<Post>({
-//     content_type: "post",
-//   });
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<Post>({
+    content_type: "post",
+  });
 
-//   const pages = entries.items.map((item) => ({
-//     params: { slug: item.fields.slug },
-//     props: {
-//       title: item.fields.title,
-//       body: documentToHtmlString(item.fields.body),
-//       publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
-//     },
-//   }));
-//   return pages;
-// }
+  const pages = entries.items.map((item) => ({
+    params: { slug: item.fields.slug },
+    props: {
+      title: item.fields.title,
+      body: richTextToHTML(item.fields.body),
+      publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
+    },
+  }));
+  return pages;
+}
 
 const { slug } = Astro.params;
 const page = pages.find((page) => page.params.slug === slug);
 if (!page) return Astro.redirect("/404");
-const { title, publishDate, body } = page.props;
+const { title, publishDate, body, test } = page.props;
 ---
 
 <html lang="en">
@@ -47,8 +89,14 @@ const { title, publishDate, body } = page.props;
     <title>{title}</title>
   </head>
   <body>
+    <Debug hi={body} />
+
     <h1>{title}</h1>
     <time>{publishDate}</time>
-    <article set:html={body} />
+    <article>
+      {test}
+      fdsafsas fdsafdsa fdsafdsaf
+      {documentToHtmlString(test)}
+    </article>
   </body>
 </html>
