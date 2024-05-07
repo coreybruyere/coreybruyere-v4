@@ -3,6 +3,7 @@ import { Debug } from "astro:components";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { richTextFromMarkdown } from "@contentful/rich-text-from-markdown";
+import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../consts";
 
 import { css } from "../../styled-system/css";
 import {
@@ -26,10 +27,9 @@ export const contentfulPosts = contentfulEntries.items.map((item) => {
   };
 });
 
-const page = Astro.url.searchParams.get("page") || "1";
+export const contentfulPostsLength = contentfulPosts.length;
 
-const POSTS_PER_PAGE_MIN = 2;
-const POSTS_PER_PAGE_MAX = 10;
+const page = Astro.url.searchParams.get("page") || "1";
 
 interface ContentfulPostsProps {
   // posts?: PostFields;

@@ -1,5 +1,7 @@
 ---
 import ContentfulPosts from "../../components/ContentfulPosts.astro";
+import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../../consts";
+
 import { Debug } from "astro:components";
 
 const { pathname } = Astro.url;
@@ -7,4 +9,6 @@ const isBlogPath = pathname === "/blog";
 export const partial = true;
 ---
 
-<ContentfulPosts />
+<ContentfulPosts
+  postsPerPage={isBlogPath ? POSTS_PER_PAGE_MAX : POSTS_PER_PAGE_MIN}
+/>
