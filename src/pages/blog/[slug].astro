@@ -30,6 +30,6 @@ const { title, publishDate, body, test } = page.props;
 // const hi = await markdown(body as any);
 ---
 
-<BlogPost>
+<BlogPost title={title} publishDate={publishDate}>
   <Markdown of={body as any} />
 </BlogPost>

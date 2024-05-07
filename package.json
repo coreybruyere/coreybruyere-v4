@@ -13,6 +13,7 @@
   "dependencies": {
     "@astrojs/check": "^0.5.8",
     "@astrojs/mdx": "^2.2.0",
+    "@astrojs/netlify": "^5.2.1",
     "@astrojs/node": "^8.2.5",
     "@astrojs/rss": "^4.0.5",
     "@astrojs/sitemap": "^3.1.1",
@@ -24,8 +25,8 @@
     "astro": "^4.5.2",
     "astro-htmx": "^1.0.5",
     "contentful": "^10.8.6",
-    "marked": "^12.0.2",
     "htmx.org": "^1.9.12",
+    "marked": "^12.0.2",
     "typescript": "^5.4.2"
   },
   "devDependencies": {
