@@ -1,15 +1,16 @@
 import contentful, { type EntryFieldTypes } from "contentful";
 
+export interface PostFields {
+  title: EntryFieldTypes.Text;
+  slug: EntryFieldTypes.Text;
+  publishDate: EntryFieldTypes.Date;
+  heroImage: EntryFieldTypes.AssetLink;
+  body: EntryFieldTypes.RichText;
+}
+
 export interface Post {
   contentTypeId: "post";
-  fields: {
-    title: EntryFieldTypes.Text;
-    slug: EntryFieldTypes.Text;
-    publishDate: EntryFieldTypes.Date;
-    heroImage: EntryFieldTypes.AssetLink;
-    body: EntryFieldTypes.RichText;
-    // tags: EntryFieldTypes.Array<Item>
-  };
+  fields: PostFields;
 }
 
 export const contentfulClient = contentful.createClient({

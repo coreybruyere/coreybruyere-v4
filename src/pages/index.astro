@@ -2,22 +2,32 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
+import Posts from "./partials/posts.astro";
+import { Debug } from "astro:components";
 
-import { contentfulClient, type Post } from "../lib/contentful";
+import { SITE_TITLE, SITE_DESCRIPTION, POSTS_PER_PAGE_MIN } from "../consts";
+import { contentfulPostsLength } from "../components/ContentfulPosts.astro";
+import { css } from "../../styled-system/css";
 
-const entries = await contentfulClient.getEntries<Post>({
-  content_type: "post",
-});
+const calculatePagination = (
+  totalResults: number,
+  maxItemsPerPage: number = POSTS_PER_PAGE_MIN,
+) => {
+  let totalPages = Math.ceil(totalResults / maxItemsPerPage);
+  return totalPages;
+};
 
-const postsContentful = entries.items.map((item) => {
-  const { title, slug, publishDate } = item.fields;
-  return {
-    title,
-    slug,
-    publishDate: new Date(publishDate).toLocaleDateString(),
-  };
-});
+const createPaginationArray = (number: number) => {
+  let array = [];
+  for (let i = 1; i <= number; i++) {
+    array.push(i);
+  }
+  return array;
+};
+
+const paginationLength = createPaginationArray(
+  calculatePagination(contentfulPostsLength),
+);
 ---
 
 <!doctype html>
@@ -26,11 +36,12 @@ const postsContentful = entries.items.map((item) => {
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
+    <Debug hi={contentfulPostsLength} />
     <Header />
     <main>
       <h1>🧑‍🚀 Hello, Astronaut!</h1>
 
-      <h2>Contentful Posts:</h2>
+      <!-- <h2>Contentful Posts:</h2>
       {
         postsContentful && (
           <ul>
@@ -44,9 +55,48 @@ const postsContentful = entries.items.map((item) => {
             ))}
           </ul>
         )
-      }
+      } -->
       <hr style="margin: 40px" />
-      <p>
+
+      {/* HTMX Testing */}
+      <h2
+        class={css({
+          fontSize: 32,
+          width: "full",
+          justifyContent: "space-between",
+        })}
+      >
+        HTMX Testing Section
+      </h2>
+
+      <div id="contents" class="mt-3 p-3 border-2 rounded-xl">
+        ds
+        <Posts />
+      </div>
+
+      <div>Pagination: (Convert into component)</div>
+      {
+        paginationLength.map((page) => (
+          <button
+            class={css({
+              fontSize: 16,
+              background: "gray",
+              mx: 1,
+              padding: 2,
+              justifyContent: "space-between",
+              cursor: "pointer",
+            })}
+            hx-get={`/partials/posts?page=${page}`}
+            hx-target="#contents"
+          >
+            {page}
+          </button>
+        ))
+      }
+
+      <!-- <div id="contents"></div> -->
+      <hr style="margin: 40px" />
+      <!-- <p>
         Welcome to the official <a href="https://astro.build/">Astro</a> blog starter
         template. This template serves as a lightweight, minimally-styled starting
         point for anyone looking to build a personal website, blog, or portfolio
@@ -89,7 +139,7 @@ const postsContentful = entries.items.map((item) => {
           href="https://github.com/Charca/astro-blog-template"
           >astro-blog-template
         </a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-      </p>
+      </p> -->
     </main>
     <Footer />
   </body>

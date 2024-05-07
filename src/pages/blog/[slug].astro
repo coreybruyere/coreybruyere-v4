@@ -1,41 +1,36 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import { BLOCKS } from "@contentful/rich-text-types";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import type { Post } from "../../lib/contentful";
+import { markdown, Markdown } from "@astropub/md";
 
 import { Debug } from "astro:components";
 
-export async function getStaticPaths() {
-  const entries = await contentfulClient.getEntries<Post>({
-    content_type: "post",
-  });
+const entries = await contentfulClient.getEntries<Post>({
+  content_type: "post",
+});
+const pages = entries.items.map((item) => ({
+  params: { slug: item.fields.slug },
+  props: {
+    title: item.fields.title,
+    body: item.fields.body,
+    test: item.fields.body,
+    publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
+  },
+}));
 
-  const pages = entries.items.map((item) => ({
-    params: { slug: item.fields.slug },
-    props: {
-      title: item.fields.title,
-      body: documentToHtmlString(item.fields.body),
-      publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
-    },
-  }));
-  return pages;
-}
+const { slug } = Astro.params;
+const page = pages.find((page) => page.params.slug === slug);
+if (!page) return Astro.redirect("/404");
+const { title, publishDate, body, test } = page.props;
 
-const { body, title, publishDate } = Astro.props;
-
-console.log(body);
+const hi = await markdown(body);
 ---
 
-<html lang="en">
-  <head>
-    <title>{title}</title>
-  </head>
-  <body>
-    <h1>{title}</h1>
-    <time>{publishDate}</time>
-    <Debug answer={publishDate} />
-    <article set:html={publishDate} />
-  </body>
-</html>
+<BlogPost>
+  <Debug richtext={Astro.props} />
+  <article set:html={hi} />
+</BlogPost>
