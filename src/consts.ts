@@ -4,3 +4,5 @@
 export const SITE_TITLE = "CB";
 export const SITE_DESCRIPTION =
   "Corey Bruyere's Portolio and Personal Website!";
+export const POSTS_PER_PAGE_MIN = 3;
+export const POSTS_PER_PAGE_MAX = 10;

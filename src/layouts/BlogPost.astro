@@ -5,11 +5,15 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 type Props = CollectionEntry<"blog">["data"];
 =======
 // type Props = CollectionEntry<"post">["data"];
 >>>>>>> Stashed changes
+=======
+type Props = CollectionEntry<"post">["data"];
+>>>>>>> 3f3fba14791c8b5c6d6e3965b91bbb63674c3b22
 
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 ---
@@ -72,14 +76,14 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         <div class="prose">
           <div class="title">
             <div class="date">
-              <FormattedDate date={pubDate} />
+              <!-- <FormattedDate date={pubDate} />
               {
                 updatedDate && (
                   <div class="last-updated-on">
                     Last updated on <FormattedDate date={updatedDate} />
                   </div>
                 )
-              }
+              } -->
             </div>
             <h1>{title}</h1>
             <hr />

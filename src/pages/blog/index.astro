@@ -1,25 +1,16 @@
 ---
+import { getCollection } from "astro:content";
+
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
-import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
-
+import Posts from "../partials/posts.astro";
 import { contentfulClient, type Post } from "../../lib/contentful";
 
-const entries = await contentfulClient.getEntries<Post>({
-  content_type: "post",
-});
-
-const postsContentful = entries.items.map((item) => {
-  const { title, slug, publishDate } = item.fields;
-  return {
-    title,
-    slug,
-    publishDate: new Date(publishDate).toLocaleDateString(),
-  };
-});
+const { pathname } = Astro.url;
+import { Debug } from "astro:components";
 ---
 
 <html lang="en">
@@ -100,7 +91,9 @@ const postsContentful = entries.items.map((item) => {
     <main>
       <section>
         <h2>Contentful Posts:</h2>
-        {
+
+        <Posts />
+        <!-- {
           postsContentful && (
             <ul>
               {postsContentful.map((post) => (
@@ -111,7 +104,7 @@ const postsContentful = entries.items.map((item) => {
               ))}
             </ul>
           )
-        }
+        } -->
       </section>
     </main>
     <Footer />
