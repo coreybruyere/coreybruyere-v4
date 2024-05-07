@@ -27,9 +27,9 @@ const page = pages.find((page) => page.params.slug === slug);
 if (!page) return Astro.redirect("/404");
 const { title, publishDate, body, test } = page.props;
 
-// const hi = await markdown(body);
+// const hi = await markdown(body as any);
 ---
 
 <BlogPost>
-  <!-- <article set:html={hi} /> -->
+  <Markdown of={body as any} />
 </BlogPost>
