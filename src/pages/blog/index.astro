@@ -11,21 +11,6 @@ import { contentfulClient, type Post } from "../../lib/contentful";
 
 const { pathname } = Astro.url;
 import { Debug } from "astro:components";
-
-console.log(pathname);
-
-// const entries = await contentfulClient.getEntries<Post>({
-//   content_type: "post",
-// });
-
-// const postsContentful = entries.items.map((item) => {
-//   const { title, slug, publishDate } = item.fields;
-//   return {
-//     title,
-//     slug,
-//     publishDate: new Date(publishDate).toLocaleDateString(),
-//   };
-// });
 ---
 
 <html lang="en">

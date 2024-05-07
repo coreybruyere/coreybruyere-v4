@@ -1,44 +1,65 @@
 ---
 import { Debug } from "astro:components";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { richTextFromMarkdown } from "@contentful/rich-text-from-markdown";
 
-import { contentfulClient, type Post } from "../lib/contentful";
+import { css } from "../../styled-system/css";
+import {
+  contentfulClient,
+  type Post,
+  type PostFields,
+} from "../lib/contentful";
 
 export const contentfulEntries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
 
 export const contentfulPosts = contentfulEntries.items.map((item) => {
-  const { title, slug, body, publishDate } = item.fields;
+  const { title, slug, body, heroImage, publishDate } = item.fields;
   return {
     title,
     slug,
     body,
+    heroImage,
     publishDate: new Date(publishDate).toLocaleDateString(),
   };
 });
 
-const page = Astro.url.searchParams.get("page") || 1;
+const page = Astro.url.searchParams.get("page") || "1";
 
 const POSTS_PER_PAGE_MIN = 2;
 const POSTS_PER_PAGE_MAX = 10;
 
+interface ContentfulPostsProps {
+  // posts?: PostFields;
+  posts?: any;
+
+  pageParam?: number;
+  postsPerPage?: number;
+}
+
 const {
   posts = contentfulPosts,
-  pageParam = page,
-  postsPerPage = POSTS_PER_PAGE_MIN,
-  ...props
-} = Astro.props;
+  pageParam = parseInt(page),
+  postsPerPage = POSTS_PER_PAGE_MAX,
+}: ContentfulPostsProps = Astro.props;
 ---
 
 <div>
-  <!-- <Debug hi={Astro.props} /> -->
+  <!-- <Debug hi={posts} /> -->
 
   <ul>
     {
       posts
         .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
-        .map((post) => (
-          <li>
+        .map((post: any) => (
+          <li
+            class={css({
+              mb: 4,
+              color: "primary",
+            })}
+          >
             <a href={`blog/${post.slug}`}>
               Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
             </a>
