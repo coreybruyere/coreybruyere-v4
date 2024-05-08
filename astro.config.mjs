@@ -10,8 +10,8 @@ export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap(), htmx()],
   output: "server",
-  adapter: netlify(),
-  // adapter: node({
-  //   mode: "standalone",
-  // }),
+  // adapter: netlify(),
+  adapter: node({
+    mode: "standalone",
+  }),
 });
