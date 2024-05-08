@@ -86,6 +86,7 @@ const paginationLength = createPaginationArray(
               justifyContent: "space-between",
               cursor: "pointer",
             })}
+            hx-push-url={`/?page=${page}`}
             hx-get={`/partials/posts?page=${page}`}
             hx-target="#contents"
           >
