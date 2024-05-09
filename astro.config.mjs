@@ -9,7 +9,7 @@ import netlify from "@astrojs/netlify";
 export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap(), htmx()],
-  output: "server",
+  output: "hybrid",
   // adapter: netlify(),
   adapter: node({
     mode: "standalone",

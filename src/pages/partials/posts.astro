@@ -7,6 +7,7 @@ import { Debug } from "astro:components";
 const { pathname } = Astro.url;
 const isBlogPath = pathname === "/blog";
 export const partial = true;
+export const prerender = false;
 ---
 
 <ContentfulPosts
