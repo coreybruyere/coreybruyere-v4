@@ -24,7 +24,7 @@ export async function getStaticPaths() {
   return pages;
 }
 
-const { slug, pages } = Astro.params;
+const { slug } = Astro.params;
 // const page = pages.find((page) => page.params.slug === slug);
 // if (!page) return Astro.redirect("/404");
 const { title, publishDate, body, test } = Astro.props;
