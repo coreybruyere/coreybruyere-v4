@@ -8,23 +8,26 @@ import type { Post } from "../../lib/contentful";
 
 import { Debug } from "astro:components";
 
-const entries = await contentfulClient.getEntries<Post>({
-  content_type: "post",
-});
-const pages = entries.items.map((item) => ({
-  params: { slug: item.fields.slug },
-  props: {
-    title: item.fields.title,
-    body: item.fields.body,
-    test: item.fields.body,
-    publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
-  },
-}));
+export async function getStaticPaths() {
+  const entries = await contentfulClient.getEntries<Post>({
+    content_type: "post",
+  });
+  const pages = entries.items.map((item) => ({
+    params: { slug: item.fields.slug },
+    props: {
+      title: item.fields.title,
+      body: item.fields.body,
+      test: item.fields.body,
+      publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
+    },
+  }));
+  return pages;
+}
 
 const { slug } = Astro.params;
-const page = pages.find((page) => page.params.slug === slug);
-if (!page) return Astro.redirect("/404");
-const { title, publishDate, body, test } = page.props;
+// const page = pages.find((page) => page.params.slug === slug);
+// if (!page) return Astro.redirect("/404");
+const { title, publishDate, body, test } = Astro.props;
 ---
 
 <BlogPost title={title} publishDate={publishDate}>
