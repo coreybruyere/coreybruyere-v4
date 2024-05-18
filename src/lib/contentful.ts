@@ -13,6 +13,19 @@ export interface Post {
   fields: PostFields;
 }
 
+export interface WorkFields {
+  title: EntryFieldTypes.Text;
+  slug: EntryFieldTypes.Text;
+  publishDate: EntryFieldTypes.Date;
+  // heroImage: EntryFieldTypes.AssetLink;
+  metaDescription: EntryFieldTypes.Text;
+}
+
+export interface Work {
+  contentTypeId: "work";
+  fields: WorkFields;
+}
+
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV
