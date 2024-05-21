@@ -1,4 +1,7 @@
-# Astro Starter Kit: Blog
+# coreybruyere-v4 
+This iteration of my personal website is built on top of the AHA stack (Astro, HTMX, AlpineJS) and styled with PandaCSS. It will be self-hosted via Coolify.
+
+## Astro Starter Kit: Blog
 
 ```sh
 npm create astro@latest -- --template blog
