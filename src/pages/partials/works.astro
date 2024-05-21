@@ -1,5 +1,5 @@
 ---
-import ContentfulWorks from "../../components/ContentfulWorks.astro";
+import ContentfulWorksList from "../../components/ContentfulWorksList.astro";
 import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../../consts";
 
 import { Debug } from "astro:components";
@@ -9,6 +9,6 @@ const isWorkPath = pathname === "/work";
 export const partial = true;
 ---
 
-<ContentfulWorks
+<ContentfulWorksList
   postsPerPage={isWorkPath ? POSTS_PER_PAGE_MAX : POSTS_PER_PAGE_MIN}
 />

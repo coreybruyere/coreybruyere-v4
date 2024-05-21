@@ -21,7 +21,7 @@ export const contentfulPostsLength = contentfulPosts.length;
 
 const page = Astro.url.searchParams.get("page") || "1";
 
-interface ContentfulWorksProps {
+interface ContentfulWorksListProps {
   // posts?: WorkFields;
   works?: any;
   pageParam?: number;
@@ -32,7 +32,7 @@ const {
   works = contentfulPosts,
   pageParam = parseInt(page),
   worksPerPage = POSTS_PER_PAGE_MAX,
-}: ContentfulWorksProps = Astro.props;
+}: ContentfulWorksListProps = Astro.props;
 ---
 
 <ul>

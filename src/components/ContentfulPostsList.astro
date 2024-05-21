@@ -27,7 +27,7 @@ export const contentfulPostsLength = contentfulPosts.length;
 
 const page = Astro.url.searchParams.get("page") || "1";
 
-interface ContentfulPostsProps {
+interface ContentfulPostsListProps {
   // posts?: PostFields;
   posts?: any;
 
@@ -39,36 +39,24 @@ const {
   posts = contentfulPosts,
   pageParam = parseInt(page),
   postsPerPage = POSTS_PER_PAGE_MAX,
-}: ContentfulPostsProps = Astro.props;
+}: ContentfulPostsListProps = Astro.props;
 ---
 
-<div>
-  <!-- <Debug hi={posts} /> -->
-
-  <ul>
-    {
-      posts
-        .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
-        .map((post: any) => (
-          <li
-            class={css({
-              mb: 4,
-              color: "primary",
-            })}
-          >
-            <a href={`/blog/${post.slug}`}>
-              Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-            </a>
-          </li>
-        ))
-    }
-  </ul>
-
-  <!-- {
-    posts.slice((page - 1) * 2, page * 2).map((post: any) => (
-      <div>
-        Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-      </div>
-    ))
-  } -->
-</div>
+<ul>
+  {
+    posts
+      .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
+      .map((post: any) => (
+        <li
+          class={css({
+            mb: 4,
+            color: "primary",
+          })}
+        >
+          <a href={`/blog/${post.slug}`}>
+            Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
+          </a>
+        </li>
+      ))
+  }
+</ul>
