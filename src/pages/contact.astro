@@ -1,0 +1,100 @@
+---
+import Layout from "../layouts/Page.astro";
+import { css } from "../../styled-system/css";
+---
+
+<Layout
+  title="Contact"
+  description="Lorem ipsum dolor sit amet"
+  pubDate={new Date("August 08 2021")}
+  heroImage="/blog-placeholder-about.jpg"
+>
+  <form method="POST" id="form">
+    <input
+      class={css({
+        borderWidth: "1px",
+        borderColor: "gray.300",
+      })}
+      type="hidden"
+      name="access_key"
+      value="cc6df478-e705-4d70-9604-9a1f8975c475"
+    />
+
+    <input
+      class={css({
+        borderWidth: "1px",
+        borderColor: "gray.300",
+      })}
+      type="text"
+      name="name"
+      required
+    />
+    <input
+      class={css({
+        borderWidth: "1px",
+        borderColor: "gray.300",
+      })}
+      type="email"
+      name="email"
+      required
+    />
+    <textarea
+      class={css({
+        borderWidth: "1px",
+        borderColor: "gray.300",
+      })}
+      name="message"
+      required></textarea>
+    <button
+      class={css({
+        borderWidth: "1px",
+        borderColor: "gray.300",
+      })}
+      type="submit">Submit Form</button
+    >
+    <div id="result"></div>
+  </form>
+
+  <script is:inline>
+    const form = document.getElementById("form");
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", function (e) {
+      const formData = new FormData(form);
+      e.preventDefault();
+
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      result.innerHTML = "Please wait...";
+
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: json,
+      })
+        .then(async (response) => {
+          let json = await response.json();
+          if (response.status == 200) {
+            result.innerHTML = json.message;
+          } else {
+            console.log(response);
+            result.innerHTML = json.message;
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          result.innerHTML = "Something went wrong!";
+        })
+        .then(function () {
+          form.reset();
+          setTimeout(() => {
+            result.style.display = "none";
+          }, 3000);
+        });
+    });
+  </script>
+</Layout>

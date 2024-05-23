@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Posts from "./partials/posts.astro";
 import { Debug } from "astro:components";
+import { ViewTransitions } from "astro:transitions";
 
 import { SITE_TITLE, SITE_DESCRIPTION, POSTS_PER_PAGE_MIN } from "../consts";
 import { contentfulPostsLength } from "../components/ContentfulPostsList.astro";
@@ -34,9 +35,9 @@ const paginationLength = createPaginationArray(
 <html lang="en">
   <head>
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <ViewTransitions />
   </head>
   <body>
-    <Debug hi={contentfulPostsLength} />
     <Header />
     <main>
       <h1>🧑‍🚀 Hello, Astronaut!</h1>
@@ -70,7 +71,6 @@ const paginationLength = createPaginationArray(
       </h2>
 
       <div id="contents" class="mt-3 p-3 border-2 rounded-xl">
-        ds
         <Posts />
       </div>
 
