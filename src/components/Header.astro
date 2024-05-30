@@ -1,7 +1,10 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
+import Container from "./Container.astro";
+
 import { SITE_TITLE } from "../consts";
 import { css } from "../../styled-system/css";
+import { visuallyHidden } from "../../styled-system/patterns";
 ---
 
 <header
@@ -12,28 +15,52 @@ import { css } from "../../styled-system/css";
     color: "primary",
   })}
 >
-  <nav
-    class={css({
-      display: "flex",
-      width: "full",
-      justifyContent: "space-between",
-      p: { base: "4", md: "7" },
-    })}
-  >
-    <h2><a href="/">{SITE_TITLE}</a></h2>
-    <ul
+  <Container>
+    <nav
       class={css({
         display: "flex",
-        m: 0,
+        width: "full",
+        justifyContent: "space-between",
+        p: { base: "4", md: "7" },
       })}
     >
-      <li><HeaderLink href="/">Home</HeaderLink></li>
-      <li><HeaderLink href="/blog">Blog</HeaderLink></li>
-      <li><HeaderLink href="/about">About</HeaderLink></li>
-      <li><HeaderLink href="/work">Work</HeaderLink></li>
-      <li><HeaderLink href="/contact">Contact</HeaderLink></li>
-    </ul>
-    <!-- <ul
+      <h1>
+        <a
+          class={css({
+            display: "block",
+            height: 10,
+            width: 10,
+          })}
+          aria-label="Site logo"
+          href="/"
+        >
+          <svg
+            class={css({
+              display: "block",
+              fill: "currentColor",
+            })}
+            viewBox="0 0 25 25"
+          >
+            <path
+              d="M22.624 0H2.377C1.047 0 0 1.046 0 2.376v20.152c0 1.33 1.047 2.376 2.377 2.376H22.53c1.33 0 2.375-1.046 2.375-2.376V2.376C25 1.046 23.86 0 22.625 0zM2.186 13.498v-1.616l9.886-4.278-.665 2.376-6.37 2.662 5.134 1.9-.474 1.807-7.51-2.853zm20.628.76l-10.836 4.754H9.792L13.31 5.894h2.185l-2.852 10.74 7.224-3.04-5.133-1.902.475-1.806 7.508 2.947v1.426z"
+            ></path>
+          </svg>
+        </a>
+        <span class={visuallyHidden()}>{SITE_TITLE}</span>
+      </h1>
+      <ul
+        class={css({
+          display: "flex",
+          m: 0,
+        })}
+      >
+        <li><HeaderLink href="/">Home</HeaderLink></li>
+        <li><HeaderLink href="/blog">Blog</HeaderLink></li>
+        <li><HeaderLink href="/about">About</HeaderLink></li>
+        <li><HeaderLink href="/work">Work</HeaderLink></li>
+        <li><HeaderLink href="/contact">Contact</HeaderLink></li>
+      </ul>
+      <!-- <ul
       class={css({
         display: "flex",
         m: 0,
@@ -73,5 +100,6 @@ import { css } from "../../styled-system/css";
         </a>
       </li>
     </ul> -->
-  </nav>
+    </nav>
+  </Container>
 </header>
