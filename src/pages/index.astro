@@ -1,10 +1,6 @@
 ---
-import BaseHead from "../components/BaseHead.astro";
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
 import Posts from "./partials/posts.astro";
-import { Debug } from "astro:components";
-import { ViewTransitions } from "astro:transitions";
 
 import { SITE_TITLE, SITE_DESCRIPTION, POSTS_PER_PAGE_MIN } from "../consts";
 import { contentfulPostsLength } from "../components/ContentfulPostsList.astro";
@@ -31,18 +27,10 @@ const paginationLength = createPaginationArray(
 );
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-    <ViewTransitions />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <h1>🧑‍🚀 Hello, Astronaut!</h1>
+<BaseLayout>
+  <h1>🧑‍🚀 Hello, Astronaut!</h1>
 
-      <!-- <h2>Contentful Posts:</h2>
+  <!-- <h2>Contentful Posts:</h2>
       {
         postsContentful && (
           <ul>
@@ -57,47 +45,47 @@ const paginationLength = createPaginationArray(
           </ul>
         )
       } -->
-      <hr style="margin: 40px" />
+  <hr style="margin: 40px" />
 
-      {/* HTMX Testing */}
-      <h2
+  {/* HTMX Testing */}
+  <h2
+    class={css({
+      fontSize: 32,
+      width: "full",
+      justifyContent: "space-between",
+    })}
+  >
+    HTMX Testing Section
+  </h2>
+
+  <div id="contents" class="mt-3 p-3 border-2 rounded-xl">
+    <Posts />
+  </div>
+
+  <div>Pagination: (Convert into component)</div>
+  {
+    paginationLength.map((page) => (
+      <button
         class={css({
-          fontSize: 32,
-          width: "full",
+          fontSize: 16,
+          background: "gray",
+          mx: 1,
+          padding: 2,
           justifyContent: "space-between",
+          cursor: "pointer",
         })}
+        hx-push-url={`/?page=${page}`}
+        hx-get={`/partials/posts?page=${page}`}
+        hx-target="#contents"
       >
-        HTMX Testing Section
-      </h2>
+        {page}
+      </button>
+    ))
+  }
 
-      <div id="contents" class="mt-3 p-3 border-2 rounded-xl">
-        <Posts />
-      </div>
-
-      <div>Pagination: (Convert into component)</div>
-      {
-        paginationLength.map((page) => (
-          <button
-            class={css({
-              fontSize: 16,
-              background: "gray",
-              mx: 1,
-              padding: 2,
-              justifyContent: "space-between",
-              cursor: "pointer",
-            })}
-            hx-push-url={`/?page=${page}`}
-            hx-get={`/partials/posts?page=${page}`}
-            hx-target="#contents"
-          >
-            {page}
-          </button>
-        ))
-      }
-
-      <!-- <div id="contents"></div> -->
-      <hr style="margin: 40px" />
-      <!-- <p>
+  <!-- <div id="contents"></div> -->
+  <hr style="margin: 40px" />
+  <!-- <p>
         Welcome to the official <a href="https://astro.build/">Astro</a> blog starter
         template. This template serves as a lightweight, minimally-styled starting
         point for anyone looking to build a personal website, blog, or portfolio
@@ -141,7 +129,4 @@ const paginationLength = createPaginationArray(
           >astro-blog-template
         </a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
       </p> -->
-    </main>
-    <Footer />
-  </body>
-</html>
+</BaseLayout>
