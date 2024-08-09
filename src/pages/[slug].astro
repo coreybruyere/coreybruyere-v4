@@ -1,0 +1,28 @@
+---
+import { Markdown } from "astro-remote";
+
+import Page from "../layouts/Page.astro";
+import { contentfulClient, type Post } from "../lib/contentful";
+
+const { slug } = Astro.params;
+
+const response = await contentfulClient.getEntries({
+  content_type: "page",
+  "fields.slug": slug,
+});
+
+const pageData = response.items.length ? response.items[0].fields : null;
+
+console.log("pageData", pageData);
+
+if (!pageData) {
+  throw new Error(`Page not found for slug: ${slug}`);
+}
+---
+
+<Page>
+  <Markdown content={pageData.body as any} />
+
+  <p>{pageData.body}</p>
+  <!-- Render more fields based on the structure of your content -->
+</Page>
