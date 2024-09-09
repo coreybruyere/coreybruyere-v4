@@ -1,0 +1,62 @@
+---
+import { css } from "../../styled-system/css";
+
+const { currentPage, totalPages } = Astro.props;
+
+const createPaginationArray = (total: number) =>
+  Array.from({ length: total }, (_, i) => i + 1);
+
+const pages = createPaginationArray(totalPages);
+
+const buttonBase = css({
+  mx: "1",
+  px: "3",
+  py: "2",
+  bg: "gray",
+  rounded: "md",
+  cursor: "pointer",
+  _hover: { bg: "darkgray" },
+});
+
+const activeStyles = {
+  backgroundColor: "blue",
+  color: "white",
+};
+---
+
+<nav aria-label="Pagination">
+  {
+    pages.map((page) => (
+      <a
+        href={`/?page=${page}`}
+        class={buttonBase}
+        data-page={page}
+        data-active-styles={JSON.stringify(activeStyles)}
+        hx-boost="true"
+        hx-target="#contents"
+        hx-select="#contents"
+        hx-swap="innerHTML"
+        style={page === currentPage ? activeStyles : {}}
+      >
+        {page}
+      </a>
+    ))
+  }
+</nav>
+
+<script>
+  document.body.addEventListener("htmx:afterOnLoad", () => {
+    const currentPage =
+      new URLSearchParams(window.location.search).get("page") || "1";
+    document.querySelectorAll("[data-page]").forEach((link) => {
+      const activeStyles = JSON.parse(
+        link.getAttribute("data-active-styles") || "{}"
+      );
+      if (link.getAttribute("data-page") === currentPage) {
+        Object.assign(link.style, activeStyles);
+      } else {
+        Object.keys(activeStyles).forEach((key) => (link.style[key] = ""));
+      }
+    });
+  });
+</script>
