@@ -1,32 +1,35 @@
 ---
-import { Markdown } from "astro-remote";
-import { type CollectionEntry, getCollection } from "astro:content";
-import { BLOCKS } from "@contentful/rich-text-types";
+// Imports
+import { marked } from "marked";
 import BlogPost from "../../layouts/BlogPost.astro";
 import { contentfulClient } from "../../lib/contentful";
 import type { Post } from "../../lib/contentful";
 
-import { Debug } from "astro:components";
-
+// Fetch and process entries
 const entries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
+
 const pages = entries.items.map((item) => ({
   params: { slug: item.fields.slug },
   props: {
     title: item.fields.title,
     body: item.fields.body,
-    test: item.fields.body,
     publishDate: new Date(item.fields.publishDate).toLocaleDateString(),
   },
 }));
 
+// Get current page data
 const { slug } = Astro.params;
 const page = pages.find((page) => page.params.slug === slug);
 if (!page) return Astro.redirect("/404");
-const { title, publishDate, body, test } = page.props;
+
+const { title, publishDate, body } = page.props;
+
+// Parse markdown content
+const htmlContent = marked.parse(body as any);
 ---
 
 <BlogPost title={title} publishDate={publishDate}>
-  <Markdown content={body as any} />
+  <article set:html={htmlContent} />
 </BlogPost>
