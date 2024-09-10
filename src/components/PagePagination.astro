@@ -1,0 +1,59 @@
+---
+// Pagination.astro
+const { currentPage, totalPages } = Astro.props;
+---
+
+<nav>
+  <ul class="pagination">
+    {
+      currentPage > 1 && (
+        <li>
+          <a href={`?page=${currentPage - 1}`}>&laquo; Previous</a>
+        </li>
+      )
+    }
+    {
+      Array.from({ length: totalPages }, (_, i) => (
+        <li>
+          <a
+            href={`?page=${i + 1}`}
+            class={i + 1 === currentPage ? "active" : ""}
+          >
+            {i + 1}
+          </a>
+        </li>
+      ))
+    }
+    {
+      currentPage < totalPages && (
+        <li>
+          <a href={`?page=${currentPage + 1}`}>Next &raquo;</a>
+        </li>
+      )
+    }
+  </ul>
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+  }
+
+  .pagination li {
+    margin: 0 0.5rem;
+  }
+
+  .pagination a {
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    color: #333;
+  }
+
+  .pagination a.active {
+    background-color: #0070f3;
+    color: white;
+  }
+</style>

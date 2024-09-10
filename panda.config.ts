@@ -53,6 +53,34 @@ export default defineConfig({
     },
   },
 
+  utilities: {
+    paginationButtonBase: {
+      transform(props) {
+        return {
+          description: "Base styles for pagination buttons",
+          className: "pagination-button-base",
+          properties: {
+            marginX: { value: "1" },
+            paddingX: { value: "3" },
+            paddingY: { value: "2" },
+            background: { value: "green" },
+            borderRadius: { value: "md" },
+            cursor: "pointer",
+            _hover: { bg: "gray" },
+          },
+        };
+      },
+    },
+    paginationActiveClass: {
+      transform(props) {
+        return {
+          backgroundColor: "blue",
+          color: "white",
+        };
+      },
+    },
+  },
+
   // The output directory for your css system
   outdir: "styled-system",
 });

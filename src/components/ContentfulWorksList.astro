@@ -1,4 +1,5 @@
 ---
+import Pagination from "./PagePagination.astro";
 import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../consts";
 import { css } from "../../styled-system/css";
 import { contentfulClient, type Work } from "../lib/contentful";
@@ -19,37 +20,29 @@ export const contentfulPosts = contentfulEntries.items.map((item) => {
 
 export const contentfulPostsLength = contentfulPosts.length;
 
-const page = Astro.url.searchParams.get("page") || "1";
+const page = parseInt(Astro.url.searchParams.get("page") || "1");
+const worksPerPage = POSTS_PER_PAGE_MAX;
+const totalPages = Math.ceil(contentfulPostsLength / worksPerPage);
 
-interface ContentfulWorksListProps {
-  // posts?: WorkFields;
-  works?: any;
-  pageParam?: number;
-  worksPerPage?: number;
-}
-
-const {
-  works = contentfulPosts,
-  pageParam = parseInt(page),
-  worksPerPage = POSTS_PER_PAGE_MAX,
-}: ContentfulWorksListProps = Astro.props;
+const works = contentfulPosts.slice(
+  (page - 1) * worksPerPage,
+  page * worksPerPage
+);
 ---
 
 <ul>
   {
-    works
-      .slice((pageParam - 1) * worksPerPage, pageParam * worksPerPage)
-      .map((post: any) => (
-        <li
-          class={css({
-            mb: 4,
-            color: "primary",
-          })}
-        >
-          <a href={`/blog/${post.slug}`}>
-            Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-          </a>
-        </li>
-      ))
+    works.map((post: any) => (
+      <li
+        class={css({
+          mb: 4,
+          color: "primary",
+        })}
+      >
+        Title: {post.title}, Date: {post.publishDate}, Slug: {post.slug}
+      </li>
+    ))
   }
 </ul>
+
+<Pagination currentPage={page} totalPages={totalPages} />
