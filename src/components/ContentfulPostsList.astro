@@ -42,7 +42,7 @@ const {
 }: ContentfulPostsListProps = Astro.props;
 ---
 
-<ul>
+<ul class={css({ listStyle: "none", p: 0 })}>
   {
     posts
       .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)

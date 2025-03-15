@@ -1,10 +1,12 @@
 ---
+import { css } from "../../styled-system/css";
+
 const today = new Date();
 ---
 
-<footer>
+<footer class={css({ p: "2em 1em 6em 1em", bg: "gray.100", textAlign: "center" })}>
 	&copy; {today.getFullYear()} Your name here. All rights reserved.
-	<div class="social-links">
+	<div class={css({ display: "flex", justifyContent: "center", gap: "1em", mt: "1em" })} class="social-links">
 		<a href="https://m.webtoo.ls/@astro" target="_blank">
 			<span class="sr-only">Follow Astro on Mastodon</span>
 			<svg

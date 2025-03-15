@@ -1,86 +1,60 @@
 import { defineConfig } from "@pandacss/dev";
 
-export default defineConfig({
-  // Whether to use css reset
-  preflight: true,
+export const tokens = {
+  colors: {
+    primary: { value: "#1E40AF" }, // Blue-800
+    secondary: { value: "#9333EA" }, // Purple-600
+    accent: { value: "#FACC15" }, // Yellow-400
+    background: { value: "#F3F4F6" }, // Gray-200
+    text: { value: "#111827" }, // Gray-900
+  },
+  spacing: {
+    sm: { value: "8px" },
+    md: { value: "16px" },
+    lg: { value: "32px" },
+  },
+};
 
-  // Where to look for your css declarations
+export const globalCss = {
+  "html, body": {
+    backgroundColor: "{colors.background}",
+    color: "{colors.text}",
+    fontFamily: "system-ui, sans-serif",
+  },
+};
+
+export const semanticTokens = {
+  colors: {
+    buttonBg: {
+      value: {
+        base: "{colors.primary}",
+        _hover: "{colors.secondary}",
+      },
+    },
+  },
+};
+
+export const textStyles = {
+  heading: {
+    description: "Heading style",
+    value: {
+      fontSize: "24px",
+      fontWeight: "bold",
+      lineHeight: "1.2",
+    },
+  },
+};
+
+export const recipes = {};
+
+export default defineConfig({
+  theme: {
+    extend: { tokens, semanticTokens, textStyles },
+  },
+  globalCss,
   include: [
     "./src/**/*.{ts,tsx,js,jsx,astro}",
     "./pages/**/*.{ts,tsx,js,jsx,astro}",
   ],
-
-  // Files to exclude
-  exclude: [],
-  // conditions: {
-  //   light: "[data-color-mode=light] &",
-  //   dark: "[data-color-mode=dark] &",
-  //   pinkTheme: "[data-theme=pink] &",
-  //   blueTheme: "[data-theme=blue] &",
-  // },
-
-  // Useful for theme customization
-  theme: {
-    extend: {
-      tokens: {
-        colors: {
-          primary: { value: "{colors.teal.900}" },
-          secondary: { value: "{colors.orange.900}" },
-        },
-      },
-      semanticTokens: {
-        colors: {
-          danger: {
-            value: { base: "{colors.red.400}", _dark: "{colors.green.900}" },
-          },
-          success: {
-            value: { base: "{colors.green.400}", _dark: "{colors.green.900}" },
-          },
-          text: {
-            value: {
-              _pinkTheme: {
-                base: "{colors.pink.500}",
-                _dark: "{colors.pink.300}",
-              },
-              _blueTheme: {
-                base: "{colors.blue.500}",
-                _dark: "{colors.blue.300}",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-
-  utilities: {
-    paginationButtonBase: {
-      transform(props) {
-        return {
-          description: "Base styles for pagination buttons",
-          className: "pagination-button-base",
-          properties: {
-            marginX: { value: "1" },
-            paddingX: { value: "3" },
-            paddingY: { value: "2" },
-            background: { value: "green" },
-            borderRadius: { value: "md" },
-            cursor: "pointer",
-            _hover: { bg: "gray" },
-          },
-        };
-      },
-    },
-    paginationActiveClass: {
-      transform(props) {
-        return {
-          backgroundColor: "blue",
-          color: "white",
-        };
-      },
-    },
-  },
-
-  // The output directory for your css system
   outdir: "styled-system",
 });
