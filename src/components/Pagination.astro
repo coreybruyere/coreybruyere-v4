@@ -33,8 +33,8 @@ const buttonActive = css({
         data-page={page}
         data-active-class={buttonActive}
         hx-boost="true"
-        hx-target="#contents"
-        hx-select="#contents"
+        hx-target="#post-contents"
+        hx-select="#post-contents"
         hx-swap="innerHTML"
         hx-trigger="click"
       >
@@ -47,7 +47,7 @@ const buttonActive = css({
 <script>
   document.addEventListener('htmx:afterSwap', function(event) {
     const customEvent = event as CustomEvent;
-    if (customEvent.detail.target.id === 'contents') {
+    if (customEvent.detail.target.id === 'post-contents') {
       const currentPage = new URLSearchParams(window.location.search).get('page') || '1';
       const paginationLinks = document.querySelectorAll('#pagination-nav a');
       paginationLinks.forEach(link => {
