@@ -18,25 +18,25 @@ const buttonBase = css({
   _hover: { bg: "darkgray" },
 });
 
-const activeStyles = {
-  backgroundColor: "blue",
+const buttonActive = css({
+  bg: "blue",
   color: "white",
-};
+});
 ---
 
-<nav aria-label="Pagination">
+<nav aria-label="Pagination" id="pagination-nav">
   {
     pages.map((page) => (
       <a
         href={`/?page=${page}`}
-        class={buttonBase}
+        class:list={[buttonBase, page === currentPage ? buttonActive : ""]}
         data-page={page}
-        data-active-styles={JSON.stringify(activeStyles)}
+        data-active-class={buttonActive}
         hx-boost="true"
         hx-target="#contents"
         hx-select="#contents"
         hx-swap="innerHTML"
-        style={page === currentPage ? activeStyles : {}}
+        hx-trigger="click"
       >
         {page}
       </a>
@@ -45,18 +45,22 @@ const activeStyles = {
 </nav>
 
 <script>
-  document.body.addEventListener("htmx:afterOnLoad", () => {
-    const currentPage =
-      new URLSearchParams(window.location.search).get("page") || "1";
-    document.querySelectorAll("[data-page]").forEach((link) => {
-      const activeStyles = JSON.parse(
-        link.getAttribute("data-active-styles") || "{}"
-      );
-      if (link.getAttribute("data-page") === currentPage) {
-        Object.assign(link.style, activeStyles);
-      } else {
-        Object.keys(activeStyles).forEach((key) => (link.style[key] = ""));
-      }
-    });
+  document.addEventListener('htmx:afterSwap', function(event) {
+    const customEvent = event as CustomEvent;
+    if (customEvent.detail.target.id === 'contents') {
+      const currentPage = new URLSearchParams(window.location.search).get('page') || '1';
+      const paginationLinks = document.querySelectorAll('#pagination-nav a');
+      paginationLinks.forEach(link => {
+        const activeClass = link.getAttribute('data-active-class');
+        if (activeClass) {
+          const activeClasses = activeClass.split(' ');
+          if (link.getAttribute('data-page') === currentPage) {
+            activeClasses.forEach(cls => link.classList.add(cls));
+          } else {
+            activeClasses.forEach(cls => link.classList.remove(cls));
+          }
+        }
+      });
+    }
   });
 </script>
