@@ -10,6 +10,9 @@ COPY package.json bun.lockb panda.config.ts ./
 # Install dependencies
 RUN bun install
 
+# Run the prepare script to generate CSS utilities
+RUN bun run prepare
+
 # Copy the rest of the application code
 COPY . .
 
