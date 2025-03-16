@@ -16,6 +16,18 @@ COPY . .
 # Build the application
 RUN bun run build
 
+# Stage 2: Create a minimal runtime image
+FROM alpine:3.14
+
+# Install necessary runtime dependencies
+RUN apk add --no-cache nodejs
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the built application from the builder stage
+COPY --from=builder /app /app
+
 # Expose the port the app runs on
 EXPOSE 3000
 
