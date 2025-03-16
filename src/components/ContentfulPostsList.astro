@@ -1,11 +1,10 @@
 ---
-import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../consts";
+import { POSTS_PER_PAGE_MAX } from "../consts";
 
 import { css } from "../../styled-system/css";
 import {
   contentfulClient,
   type Post,
-  type PostFields,
 } from "../lib/contentful";
 
 export const contentfulEntries = await contentfulClient.getEntries<Post>({

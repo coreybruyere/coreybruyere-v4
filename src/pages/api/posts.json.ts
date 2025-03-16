@@ -1,5 +1,5 @@
-import type { APIRoute } from "astro";
-import { contentfulClient, type Post } from "../../lib/contentful";
+// import type { APIRoute } from "astro";
+// import { contentfulClient, type Post } from "../../lib/contentful";
 
 // @TODO: Implement the GET method and generic endpoint for posts
 // export const GET: APIRoute = async ({ params, request }) => {
