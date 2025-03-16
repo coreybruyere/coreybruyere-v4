@@ -20,7 +20,7 @@ COPY . .
 RUN bun run build
 
 # Stage 2: Create a minimal runtime image
-FROM alpine:3.14
+FROM oven/bun:1.1.44-alpine
 
 # Install necessary runtime dependencies
 RUN apk add --no-cache nodejs
