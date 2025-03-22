@@ -32,7 +32,7 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 # Expose the port the app runs on
-EXPOSE 3000
+EXPOSE 4321
 
 # Start the application
 CMD ["bun", "run", "start"]
