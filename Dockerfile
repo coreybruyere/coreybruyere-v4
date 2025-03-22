@@ -35,4 +35,4 @@ COPY --from=builder /app /app
 EXPOSE 4321
 
 # Start the application
-CMD ["bun", "run", "build"]
+CMD ["bun", "run", "preview"]
