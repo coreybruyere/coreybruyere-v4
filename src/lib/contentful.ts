@@ -1,4 +1,4 @@
-import contentful, { type EntryFieldTypes } from "contentful";
+import { createClient, type EntryFieldTypes } from "contentful";
 
 export interface PostFields {
   title: EntryFieldTypes.Text;
@@ -26,7 +26,7 @@ export interface Work {
   fields: WorkFields;
 }
 
-export const contentfulClient = contentful.createClient({
+export const contentfulClient = createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV
     ? import.meta.env.CONTENTFUL_PREVIEW_TOKEN

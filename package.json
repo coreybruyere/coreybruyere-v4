@@ -28,6 +28,7 @@
     "caniuse-lite": "",
     "contentful": "^10.15.2",
     "htmx.org": "^1.9.12",
+    "marked": "^15.0.7",
     "typescript": "^5.4.2"
   },
   "devDependencies": {
