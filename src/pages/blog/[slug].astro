@@ -10,7 +10,7 @@ const entries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
 
-const pages = entries.items.map((item) => ({
+const pages = entries.items.map((item:any) => ({
   params: { slug: item.fields.slug },
   props: {
     title: item.fields.title,
@@ -21,7 +21,7 @@ const pages = entries.items.map((item) => ({
 
 // Get current page data
 const { slug } = Astro.params;
-const page = pages.find((page) => page.params.slug === slug);
+const page = pages.find((page:any) => page.params.slug === slug);
 if (!page) return Astro.redirect("/404");
 
 const { title, publishDate, body } = page.props;

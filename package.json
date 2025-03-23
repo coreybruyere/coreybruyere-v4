@@ -6,7 +6,7 @@
     "prepare": "pnpm run codegen",
     "dev": "astro dev",
     "start": "astro preview",
-    "build": "CI=false astro build",
+    "build": "CI=false astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "codegen": "panda codegen"
@@ -26,7 +26,7 @@
     "astro-remote": "^0.3.3",
     "bun-types": "^1.1.7",
     "caniuse-lite": "",
-    "contentful": "^10.8.6",
+    "contentful": "^10.15.2",
     "htmx.org": "^1.9.12",
     "typescript": "^5.4.2"
   },

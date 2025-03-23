@@ -11,7 +11,7 @@ export const contentfulEntries = await contentfulClient.getEntries<Post>({
   content_type: "post",
 });
 
-export const contentfulPosts = contentfulEntries.items.map((item) => {
+export const contentfulPosts = contentfulEntries.items.map((item:any) => {
   const { title, slug, body, heroImage, publishDate } = item.fields;
   return {
     title,

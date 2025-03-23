@@ -51,7 +51,7 @@ importers:
         specifier: ''
         version: 1.0.30001707
       contentful:
-        specifier: ^10.8.6
+        specifier: ^10.15.2
         version: 10.15.2
       htmx.org:
         specifier: ^1.9.12

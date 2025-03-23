@@ -2,8 +2,6 @@
 import ContentfulWorksList from "../../components/ContentfulWorksList.astro";
 import { POSTS_PER_PAGE_MAX, POSTS_PER_PAGE_MIN } from "../../consts";
 
-import { Debug } from "astro:components";
-
 const { pathname } = Astro.url;
 const isWorkPath = pathname === "/work";
 export const partial = true;
