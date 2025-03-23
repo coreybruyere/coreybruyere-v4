@@ -29,7 +29,7 @@ RUN apk add --no-cache nodejs
 WORKDIR /app
 
 # Copy the built application from the builder stage
-COPY --from=builder /app /app
+COPY --from=builder /app/dist /app/dist
 
 # Expose the port the app runs on
 EXPOSE 4321
