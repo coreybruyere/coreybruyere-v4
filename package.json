@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "panda codegen",
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "bun run astro preview",
     "build": "CI=false astro check && astro build",
     "preview": "astro preview",
     "astro": "astro"

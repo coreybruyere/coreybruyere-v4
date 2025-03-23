@@ -1,12 +1,11 @@
 # Use the official Bun image as the base image
-FROM oven/bun:1.1.44-alpine AS builder
+FROM oven/bun:1.1.42 AS builder
 
 # Set the working directory
 WORKDIR /app
 
 # Copy package.json, bun.lockb, and panda.config.ts files
-COPY package.json bun.lockb panda.config.ts .
-RUN rm -rf node_modules package-lock.json
+COPY --link package.json bun.lockb panda.config.ts ./
 
 # Install dependencies
 RUN bun install
@@ -15,19 +14,25 @@ RUN bun install
 RUN bun run prepare
 
 # Copy the rest of the application code
-COPY . .
+COPY --link . .
 
 # Build the application
 RUN bun run build
 
-# Bind to all interfaces
-ENV HOST=0.0.0.0
+# Stage 2: Create a minimal runtime image
+FROM oven/bun:1.1.42 AS runner
 
-# Port to listen on
-ENV PORT=3000
+# Install necessary runtime dependencies
+RUN apk add --no-cache nodejs
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the built application from the builder stage
+COPY --from=builder /app ./
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Start the application
-CMD node ./dist/server/entry.mjs
+CMD ["bun", "run", "start"]
