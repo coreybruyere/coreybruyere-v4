@@ -29,7 +29,13 @@ RUN apk add --no-cache nodejs
 WORKDIR /app
 
 # Copy the built application from the builder stage
-COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/dist ./dist
+
+# Bind to all interfaces
+ENV HOST=0.0.0.0
+
+# Port to listen on
+ENV PORT=4321
 
 # Expose the port the app runs on
 EXPOSE 4321
