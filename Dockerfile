@@ -5,7 +5,8 @@ FROM oven/bun:1.1.44-alpine AS builder
 WORKDIR /app
 
 # Copy package.json, bun.lockb, and panda.config.ts files
-COPY package.json bun.lockb panda.config.ts ./
+COPY package.json .
+RUN rm -rf node_modules package-lock.json
 
 # Install dependencies
 RUN bun install
