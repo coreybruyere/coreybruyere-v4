@@ -1,7 +1,0 @@
-node_modules
-bun_modules
-dist
-.cache
-.git
-.vscode
-.DS_Store

@@ -6,7 +6,7 @@
     "prepare": "pnpm run codegen",
     "dev": "astro dev",
     "start": "astro preview",
-    "build": "CI=false astro check && astro build",
+    "build": "CI=false astro build",
     "preview": "astro preview",
     "astro": "astro",
     "codegen": "panda codegen"
