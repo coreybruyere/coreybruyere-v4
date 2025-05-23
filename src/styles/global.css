@@ -15,17 +15,34 @@
   font-display: swap;
 }
 
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  height: 100%;
+}
+
 body {
   font-family: "Atkinson Hyperlegible", sans-serif;
-  background-color: var(--colors-gray-100);
-  color: var(--colors-gray-900);
+  background-color: var(--colors-surfaceBg);
+  color: var(--colors-surfaceText);
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  height: 100vh;
+}
+
+/* Force dark mode styles */
+.dark {
+  background-color: var(--colors-surfaceBg);
+  color: var(--colors-surfaceText);
 }
 
 a {
-  color: var(--colors-primary);
+  color: var(--colors-interactivePrimary);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 a:hover {
@@ -40,6 +57,8 @@ h5,
 h6 {
   margin: 0;
   padding: 0;
+  color: var(--colors-surfaceText);
+  transition: color 0.3s ease;
 }
 
 ul {
@@ -49,4 +68,5 @@ ul {
 
 button {
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
