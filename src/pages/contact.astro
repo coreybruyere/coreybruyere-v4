@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Page.astro";
-import { css } from "../../styled-system/css";
 ---
 
 <Layout
@@ -9,50 +8,39 @@ import { css } from "../../styled-system/css";
   pubDate={new Date("August 08 2021")}
   heroImage="/blog-placeholder-about.jpg"
 >
-  <form method="POST" id="form">
+  <form method="POST" id="form" class="max-w-md mx-auto space-y-4">
     <input
-      class={css({
-        borderWidth: "1px",
-        borderColor: "gray.300",
-      })}
+      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       type="hidden"
       name="access_key"
       value="cc6df478-e705-4d70-9604-9a1f8975c475"
     />
 
     <input
-      class={css({
-        borderWidth: "1px",
-        borderColor: "gray.300",
-      })}
+      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       type="text"
       name="name"
+      placeholder="Your name"
       required
     />
     <input
-      class={css({
-        borderWidth: "1px",
-        borderColor: "gray.300",
-      })}
+      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       type="email"
       name="email"
+      placeholder="Your email"
       required
     />
     <textarea
-      class={css({
-        borderWidth: "1px",
-        borderColor: "gray.300",
-      })}
+      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-vertical"
       name="message"
+      placeholder="Your message"
+      rows="5"
       required></textarea>
     <button
-      class={css({
-        borderWidth: "1px",
-        borderColor: "gray.300",
-      })}
+      class="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-fast focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
       type="submit">Submit Form</button
     >
-    <div id="result"></div>
+    <div id="result" class="text-center"></div>
   </form>
 
   <script is:inline>

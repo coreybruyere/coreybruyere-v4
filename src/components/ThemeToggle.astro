@@ -1,33 +1,26 @@
 ---
-import { css } from '../../styled-system/css';
 ---
+
+<!-- Prevent theme flash by setting theme immediately -->
+<script is:inline>
+  (function() {
+    const theme = (() => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    })();
+
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
 
 <button
   id="theme-toggle"
-  class={css({
-    position: 'sticky',
-    left: '4',
-    top: '4',
-    width: '40px',
-    height: '40px',
-    borderRadius: 'full',
-    backgroundColor: 'background',
-    border: '1px solid',
-    borderColor: 'primary',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-    _hover: {
-      transform: 'scale(1.1)',
-    },
-    _focus: {
-      outline: '2px solid',
-      outlineColor: 'primary',
-      outlineOffset: '2px',
-    },
-  })}
+  class="theme-toggle w-10 h-10 rounded-full bg-background border border-primary flex items-center justify-center transition-fast hover:scale-110 focus:outline-2 focus:outline-primary focus:outline-offset-2"
   aria-label="Toggle dark mode"
 >
   <svg
@@ -41,7 +34,7 @@ import { css } from '../../styled-system/css';
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class={css({ color: 'primary', display: 'none' })}
+    class="text-primary"
   >
     <circle cx="12" cy="12" r="5" />
     <line x1="12" y1="1" x2="12" y2="3" />
@@ -64,7 +57,7 @@ import { css } from '../../styled-system/css';
     stroke-width="2"
     stroke-linecap="round"
     stroke-linejoin="round"
-    class={css({ color: 'accent' })}
+    class="text-accent hidden"
   >
     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
   </svg>
@@ -82,32 +75,39 @@ import { css } from '../../styled-system/css';
   })();
 
   if (theme === 'light') {
-    document.documentElement.classList.remove('dark');
+    document.documentElement.setAttribute('data-theme', 'light');
   } else {
-    document.documentElement.classList.add('dark');
+    document.documentElement.setAttribute('data-theme', 'dark');
   }
 
   window.localStorage.setItem('theme', theme!);
 
+  // Set initial icon visibility
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
+  
+  if (theme === 'dark') {
+    sunIcon?.classList.add('hidden');
+    moonIcon?.classList.remove('hidden');
+  } else {
+    sunIcon?.classList.remove('hidden');
+    moonIcon?.classList.add('hidden');
+  }
+
   const handleToggleClick = () => {
     const element = document.documentElement;
-    const isDark = element.classList.contains('dark');
+    const isDark = element.getAttribute('data-theme') === 'dark';
     const sunIcon = document.getElementById('sun-icon');
     const moonIcon = document.getElementById('moon-icon');
 
-    element.classList.toggle('dark');
+    const newTheme = isDark ? 'light' : 'dark';
+    element.setAttribute('data-theme', newTheme);
+    
     sunIcon?.classList.toggle('hidden');
     moonIcon?.classList.toggle('hidden');
 
-    const newTheme = isDark ? 'light' : 'dark';
     localStorage.setItem('theme', newTheme);
   };
 
   document.getElementById('theme-toggle')?.addEventListener('click', handleToggleClick);
 </script>
-
-<style>
-  .hidden {
-    display: none;
-  }
-</style>

@@ -1,37 +1,22 @@
 ---
-import { css } from "../../styled-system/css";
-
 const { currentPage, totalPages } = Astro.props;
 
 const createPaginationArray = (total: number) =>
   Array.from({ length: total }, (_, i) => i + 1);
 
 const pages = createPaginationArray(totalPages);
-
-const buttonBase = css({
-  mx: "1",
-  px: "3",
-  py: "2",
-  bg: "gray",
-  rounded: "md",
-  cursor: "pointer",
-  _hover: { bg: "darkgray" },
-});
-
-const buttonActive = css({
-  bg: "blue",
-  color: "white",
-});
 ---
 
-<nav aria-label="Pagination" id="pagination-nav">
+<nav aria-label="Pagination" id="pagination-nav" class="flex justify-center gap-2 mt-8">
   {
     pages.map((page) => (
       <a
         href={`/?page=${page}`}
-        class:list={[buttonBase, page === currentPage ? buttonActive : ""]}
+        class:list={[
+          "pagination-btn",
+          page === currentPage ? "pagination-btn-active" : ""
+        ]}
         data-page={page}
-        data-active-class={buttonActive}
         hx-boost="true"
         hx-target="#post-contents"
         hx-select="#post-contents"
@@ -44,6 +29,24 @@ const buttonActive = css({
   }
 </nav>
 
+<style>
+  .pagination-btn {
+    @apply mx-1 px-3 py-2 bg-gray-200 rounded-md cursor-pointer transition-fast;
+  }
+  
+  .pagination-btn:hover {
+    @apply bg-gray-300;
+  }
+  
+  .pagination-btn-active {
+    @apply bg-primary text-white;
+  }
+  
+  .pagination-btn-active:hover {
+    @apply bg-primary;
+  }
+</style>
+
 <script>
   document.addEventListener('htmx:afterSwap', function(event) {
     const customEvent = event as CustomEvent;
@@ -51,14 +54,10 @@ const buttonActive = css({
       const currentPage = new URLSearchParams(window.location.search).get('page') || '1';
       const paginationLinks = document.querySelectorAll('#pagination-nav a');
       paginationLinks.forEach(link => {
-        const activeClass = link.getAttribute('data-active-class');
-        if (activeClass) {
-          const activeClasses = activeClass.split(' ');
-          if (link.getAttribute('data-page') === currentPage) {
-            activeClasses.forEach(cls => link.classList.add(cls));
-          } else {
-            activeClasses.forEach(cls => link.classList.remove(cls));
-          }
+        if (link.getAttribute('data-page') === currentPage) {
+          link.classList.add('pagination-btn-active');
+        } else {
+          link.classList.remove('pagination-btn-active');
         }
       });
     }

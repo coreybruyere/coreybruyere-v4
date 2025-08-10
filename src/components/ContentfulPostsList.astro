@@ -1,7 +1,6 @@
 ---
 import { POSTS_PER_PAGE_MAX } from "../consts";
 
-import { css } from "../../styled-system/css";
 import {
   contentfulClient,
   type Post,
@@ -41,17 +40,12 @@ const {
 }: ContentfulPostsListProps = Astro.props;
 ---
 
-<ul class={css({ listStyle: "none", p: 0 })}>
+<ul class="list-none p-0">
   {
     posts
       .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
       .map((post: any) => (
-        <li
-          class={css({
-            mb: 4,
-            color: "primary",
-          })}
-        >
+        <li class="mb-4 text-primary">
           <a href={`/blog/${post.slug}`}>
             Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
           </a>

@@ -5,7 +5,6 @@ import Pagination from "../components/Pagination.astro";
 
 import { POSTS_PER_PAGE_MIN } from "../consts";
 import { contentfulPostsLength } from "../components/ContentfulPostsList.astro";
-import { css } from "../../styled-system/css";
 
 const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
 
@@ -22,15 +21,10 @@ const calculatePagination = (
 <BaseLayout>
   <h1>🧑‍🚀 Hello, Astronaut!</h1>
 
-  <hr style="margin: 40px" />
+  <hr class="my-10" />
 
   {/* HTMX Testing */}
-  <h2
-    class={css({
-      fontSize: 32,
-      width: "full",
-    })}
-  >
+  <h2 class="text-3xl w-full">
     HTMX Testing Section
   </h2>
 
@@ -42,6 +36,6 @@ const calculatePagination = (
     currentPage={currentPage}
   />
 
-  <hr style="margin: 40px" />
+  <hr class="my-10" />
 
 </BaseLayout>
