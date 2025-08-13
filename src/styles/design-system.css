@@ -108,8 +108,8 @@ html {
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--color-background);
   color: var(--color-text);
   margin: 0;
@@ -137,7 +137,7 @@ h6 {
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   transition: color var(--transition-normal);
-  font-family: "Short Stack", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-family: "Bubblegum Sans", system-ui, sans-serif;
 }
 
 h1 {
@@ -284,6 +284,73 @@ select {
   display: block;
   fill: currentColor;
   transition: fill var(--transition-normal);
+}
+
+/* ===================================
+   CARD COMPONENTS
+   =================================== */
+
+.card {
+  position: relative;
+  padding: var(--space-md);
+  background-color: var(--color-header-bg);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.card-content {
+  text-align: center;
+}
+
+.card-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0 0 var(--space-sm) 0;
+  color: var(--color-text);
+}
+
+.card-date {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--color-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.card-slug {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--color-secondary);
+  font-family: monospace;
+}
+
+/* ===================================
+   GRID LAYOUTS
+   =================================== */
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  padding: var(--space-md) 0;
+}
+
+@media (max-width: 768px) {
+  .grid-cards {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+  }
 }
 
 /* ===================================
@@ -545,7 +612,7 @@ select {
 }
 
 .font-playful {
-  font-family: "Short Stack", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-family: "Bubblegum Sans", system-ui, sans-serif;
 }
 
 .leading-tight {

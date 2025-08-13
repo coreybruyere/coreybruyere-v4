@@ -17,8 +17,11 @@ if (!pageData) {
 }
 
 const htmlContent = marked.parse(pageData.body as any);
+
+
+const metaDescription = pageData.metaDescription;
 ---
 
-<Page>
+<Page title={pageData.title} description={metaDescription} heroImage={pageData.heroImage}>
   <article set:html={htmlContent} />
 </Page>

@@ -1,0 +1,36 @@
+---
+interface Props {
+  title: string;
+  date?: string;
+  slug?: string;
+  href?: string;
+  class?: string;
+}
+
+const { title, date, slug, href, class: className } = Astro.props;
+---
+
+<div class:list={["blob-card", "card", className]}>
+  {href ? (
+    <a href={href} class="card-link">
+      <div class="card-content">
+        <h3 class="card-title">{title}</h3>
+        {date && <time class="card-date">{date}</time>}
+        {slug && <span class="card-slug">{slug}</span>}
+      </div>
+    </a>
+  ) : (
+    <div class="card-content">
+      <h3 class="card-title">{title}</h3>
+      {date && <time class="card-date">{date}</time>}
+      {slug && <span class="card-slug">{slug}</span>}
+    </div>
+  )}
+</div>
+
+<style>
+  .blob-card {
+    clip-path: ellipse(70% 60% at 50% 50%);
+    border-radius: 0; /* Override card border-radius for blob shape */
+  }
+</style> 
