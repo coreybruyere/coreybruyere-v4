@@ -3,13 +3,11 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "prepare": "pnpm run codegen",
     "dev": "astro dev",
     "start": "astro preview",
     "build": "CI=false astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "codegen": "panda codegen"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/check": "^0.5.8",
@@ -31,7 +29,5 @@
     "marked": "^15.0.7",
     "typescript": "^5.4.2"
   },
-  "devDependencies": {
-    "@pandacss/dev": "^0.35.0"
-  }
+  "devDependencies": {}
 }

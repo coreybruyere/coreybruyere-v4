@@ -1,7 +1,7 @@
 ---
 import { POSTS_PER_PAGE_MAX } from "../consts";
+import BlobCard from "./BlobCard.astro";
 
-import { css } from "../../styled-system/css";
 import {
   contentfulClient,
   type Post,
@@ -41,21 +41,33 @@ const {
 }: ContentfulPostsListProps = Astro.props;
 ---
 
-<ul class={css({ listStyle: "none", p: 0 })}>
+<div class="grid-cards">
   {
     posts
       .slice((pageParam - 1) * postsPerPage, pageParam * postsPerPage)
       .map((post: any) => (
-        <li
-          class={css({
-            mb: 4,
-            color: "primary",
-          })}
-        >
-          <a href={`/blog/${post.slug}`}>
-            Title:{post.title}, Date: {post.publishDate}, Slug: {post.slug}
-          </a>
-        </li>
+        <BlobCard
+          title={post.title}
+          date={post.publishDate}
+          slug={post.slug}
+          href={`/blog/${post.slug}`}
+        />
       ))
   }
-</ul>
+</div>
+
+<style>
+  .blob-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+    padding: var(--space-md) 0;
+  }
+
+  @media (max-width: 768px) {
+    .blob-cards-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-md);
+    }
+  }
+</style>

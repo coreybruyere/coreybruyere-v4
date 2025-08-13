@@ -1,7 +1,6 @@
 ---
 import Pagination from "./PagePagination.astro";
 import { POSTS_PER_PAGE_MAX } from "../consts";
-import { css } from "../../styled-system/css";
 import { contentfulClient, type Work } from "../lib/contentful";
 
 export const contentfulEntries = await contentfulClient.getEntries<Work>({
@@ -33,12 +32,7 @@ const works = contentfulPosts.slice(
 <ul>
   {
     works.map((post: any) => (
-      <li
-        class={css({
-          mb: 4,
-          color: "primary",
-        })}
-      >
+      <li class="mb-4 text-primary">
         Title: {post.title}, Date: {post.publishDate}, Slug: {post.slug}
       </li>
     ))
